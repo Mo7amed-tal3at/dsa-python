@@ -27,19 +27,20 @@ class Heap :
         self._bubble_up(self.size-1)
 
 
-    def _bubble_down (self, index):
+    def _bubble_down (self, index , size = None):
+        size = size if size else self.size
         left_child = 2* index +1
         right_child = 2* index +2
-        if left_child >= self.size :
+        if left_child >= size :
             return index
         else :
             largest = left_child
-            if right_child < self.size and self.heap[right_child] > self.heap[largest]:
+            if right_child < size and self.heap[right_child] > self.heap[largest]:
                 largest = right_child
 
             if self.heap[index] < self.heap[largest]:
                 self._swap(index, largest)
-                return self._bubble_down(largest)
+                return self._bubble_down(largest, size)
 
             return index
 
@@ -60,3 +61,12 @@ class Heap :
         for i in range((self.size//2)-1 , -1 ,-1) :
             self._bubble_down(i)
 
+    def heap_sort(self):
+        if not self.heap :
+            raise Exception("Pass Array")
+        count = self.size-1
+        while count > 0:
+            self._swap(0,count)
+            self._bubble_down(0,count)
+            count -= 1
+        return self.heap
